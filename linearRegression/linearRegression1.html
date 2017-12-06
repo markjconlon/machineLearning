@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+
+    <script type="text/javascript">
+      var data = [];
+      var m = 1;
+      var b = 0;
+
+      window.onload = function(){
+        var canvas = document.getElementById("canvas");
+        var canvasContext = canvas.getContext('2d');
+
+        canvas.addEventListener("mousedown", function(e){
+          canvasContext.fillStyle = "white";
+          var x = e.clientX;
+          var y = e.clientY;
+          console.log(x,y);MAch
+        });
+
+        function draw() {
+          canvasContext.fillStyle = "blue";
+          canvasContext.fillRect(0,0, canvas.width, canvas.height);
+        }
+        draw();
+
+        function drawLine(){
+          var x1 = 0;
+          var y1 = m * x1 + b;
+          var x2 = 1;
+          var y2 = m * x2 + b;
+
+          canvasContext.strokeStyle = "white";
+          canvasContext.beginPath();
+          canvasContext.moveTo(0,0);
+          canvasContext.lineTo(400,400);
+          canvasContext.lineWidth=1;
+          canvasContext.stroke();
+        }
+        drawLine();
+      }
+
+    </script>
+  </body>
+</html>
