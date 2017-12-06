@@ -20,29 +20,68 @@
           canvasContext.fillStyle = "white";
           var x = e.clientX;
           var y = e.clientY;
-          console.log(x,y);MAch
+          drawRect(x, y, 2, 2, "white");
+          data.push([x,y])
+          console.log(data);
+          if (data.length >= 2) {
+            drawRect(0,0, canvas.width, canvas.height, "blue");
+            linearRegression();
+            drawOldPoints();
+          }
         });
 
-        function draw() {
-          canvasContext.fillStyle = "blue";
-          canvasContext.fillRect(0,0, canvas.width, canvas.height);
+        function drawRect(xPos, yPos, width, height, color) {
+          canvasContext.fillStyle = color;
+          canvasContext.fillRect(xPos, yPos, width, height);
         }
-        draw();
 
-        function drawLine(){
+        function drawOldPoints(){
+          data.map(function(point) {
+            drawRect(point[0], point[1], 2, 2, "white");
+          });
+        }
+
+        drawRect(0,0, canvas.width, canvas.height, "blue");
+
+        function linearRegression(){
+          // data is an array of all the points [x,y]
+          var xSum = data.reduce(function (total, num){
+            return total += num[0];
+          }, 0);
+          var ySum = data.reduce(function(total, num) {
+            return total += num[1];
+          }, 0);
+
+          console.log(xSum, ySum);
+
+          var xMean = xSum/data.length;
+          var yMean = ySum/data.length;
+
+          var numerator = data.reduce(function (total, num) {
+            return total += (num[0] - xMean) * (num[1] - yMean);
+          }, 0);
+          var denominator = data.reduce(function (total, num){
+            return total += (num[0] - xMean) * (num[0] - xMean);
+          }, 0);
+
+          var m = numerator/denominator;
+          var b = yMean - m * xMean;
+          drawLine(m,b);
+        }
+
+        function drawLine(m,b){
           var x1 = 0;
           var y1 = m * x1 + b;
-          var x2 = 1;
+          var x2 = canvas.width;
           var y2 = m * x2 + b;
 
           canvasContext.strokeStyle = "white";
           canvasContext.beginPath();
-          canvasContext.moveTo(0,0);
-          canvasContext.lineTo(400,400);
+          canvasContext.moveTo(x1,y1);
+          canvasContext.lineTo(x2,y2);
           canvasContext.lineWidth=1;
           canvasContext.stroke();
         }
-        drawLine();
       }
 
     </script>
