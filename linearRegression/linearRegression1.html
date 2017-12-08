@@ -22,7 +22,6 @@
           var y = e.clientY;
           drawRect(x, y, 2, 2, "white");
           data.push([x,y])
-          console.log(data);
           if (data.length >= 2) {
             drawRect(0,0, canvas.width, canvas.height, "blue");
             linearRegression();
@@ -51,8 +50,6 @@
           var ySum = data.reduce(function(total, num) {
             return total += num[1];
           }, 0);
-
-          console.log(xSum, ySum);
 
           var xMean = xSum/data.length;
           var yMean = ySum/data.length;
