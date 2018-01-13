@@ -2,10 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Gradient Descent</title>
   </head>
   <body>
-    <!-- Ordinary Least Squares Method remember top left is 0,0 in browser unlike math -->
     <canvas id="canvas" width="400" height="400"></canvas>
 
     <script type="text/javascript">
@@ -25,7 +24,7 @@
           data.push([x,y])
           if (data.length >= 2) {
             drawRect(0,0, canvas.width, canvas.height, "blue");
-            linearRegression();
+            gradientDescent();
             drawOldPoints();
           }
         });
@@ -43,28 +42,15 @@
 
         drawRect(0,0, canvas.width, canvas.height, "blue");
 
-        function linearRegression(){
+        function gradientDescent(){
           // data is an array of all the points [x,y]
-          var xSum = data.reduce(function (total, num){
-            return total += num[0];
-          }, 0);
-          var ySum = data.reduce(function(total, num) {
-            return total += num[1];
-          }, 0);
+          for (var i =0; i < data.slength; i++) {
+            var x = data[i].x;
+            var y = data[i].y;
 
-          var xMean = xSum/data.length;
-          var yMean = ySum/data.length;
-
-          var numerator = data.reduce(function (total, num) {
-            return total += (num[0] - xMean) * (num[1] - yMean);
-          }, 0);
-          var denominator = data.reduce(function (total, num){
-            return total += (num[0] - xMean) * (num[0] - xMean);
-          }, 0);
-
-          var m = numerator/denominator;
-          var b = yMean - m * xMean;
-          drawLine(m,b);
+            var guess = m * x + b;
+            var error = guess - y;
+          }
         }
 
         function drawLine(m,b){
