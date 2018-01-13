@@ -44,12 +44,24 @@
 
         function gradientDescent(){
           // data is an array of all the points [x,y]
-          for (var i =0; i < data.slength; i++) {
-            var x = data[i].x;
-            var y = data[i].y;
+
+          var learning_rate = 0.01;
+
+          for (var i = 0; i < data.length; i++) {
+            var x = data[i][0];
+            var y = data[i][1];
 
             var guess = m * x + b;
-            var error = guess - y;
+
+            var error = y - guess;
+
+            m = m + error * x * learning_rate;
+            
+            //simply moves y intercept up or down depending on error
+            b = b + error * learning_rate;
+            console.log("m =" + m);
+            console.log("b =" + b);
+            drawLine(m,b);
           }
         }
 
